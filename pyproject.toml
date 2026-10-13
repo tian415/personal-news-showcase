@@ -35,7 +35,7 @@ include = ["/src", "/tests", "/config", "/docs", "/experiments", "/scripts", "/e
 exclude = ["**/.env", "**/.env.*", "**/__pycache__", "**/*.pyc"]
 
 [tool.pytest.ini_options]
-pythonpath = ["src"]
+pythonpath = ["src", "."]
 
 [tool.ruff]
 line-length = 100

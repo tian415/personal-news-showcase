@@ -14,7 +14,7 @@ uv run news-assistant demo --output work/demo
 python3 -m http.server 8765 --bind 127.0.0.1 --directory work/demo/public
 ```
 
-打开 http://127.0.0.1:8765。安装依赖需要网络；演示使用合成新闻，不访问真实来源、不调用模型、不发送邮件。重复演示请使用新的空目录，例如 `work/demo-2`，避免覆盖已有结果。
+打开 [本地演示](http://127.0.0.1:8765)。安装依赖需要网络；演示使用合成新闻，不访问真实来源、不调用模型、不发送邮件。重复演示请使用新的空目录，例如 `work/demo-2`，避免覆盖已有结果。
 
 ![合成新闻演示](docs/demo.png)
 
