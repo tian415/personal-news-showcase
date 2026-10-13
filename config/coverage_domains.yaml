@@ -1,0 +1,12 @@
+version: coverage-domains-v1
+domains:
+  - id: ai_technology
+    enabled: true
+  - id: business_macro
+    enabled: true
+  - id: science_health
+    enabled: true
+  - id: policy_public_affairs
+    enabled: true
+  - id: exploration
+    enabled: true

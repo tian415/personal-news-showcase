@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>历史日报 · Personal News Brief</title><link rel="stylesheet" href="assets/styles.css"></head>
+<body class="archive-page">
+<header class="site-header">
+  <div class="brand-row"><p class="eyebrow">PERSONAL NEWS BRIEF</p><nav class="page-nav" aria-label="页面导航"><a href="index.html">返回最新一期 <span aria-hidden="true">↗</span></a></nav></div>
+  <div class="masthead"><h1>历史日报<span class="title-dot" aria-hidden="true">.</span></h1><p class="edition">{{ dates|length }} 期留存</p></div>
+  <p class="intro">按日期回看已保留的内容，连接每天的变化。</p>
+</header>
+<main class="archive-layout">
+  <div class="archive-intro"><p class="section-kicker">THE ARCHIVE</p><h2>新闻有后续，<br>理解有积累。</h2><p>从最新一期开始，回看那些值得关注的时刻。</p></div>
+  <section class="archive-issues" aria-label="按日期排列的历史日报">
+    {% if dates %}<ol class="archive-list">{% for day in dates %}<li><a href="{{ day }}.html"><span class="archive-number">{{ '%02d'|format(loop.index) }}</span><span><time datetime="{{ day }}">{{ day }}</time><span class="archive-label">每日新闻{% if loop.first %} · 最近一期{% endif %}</span></span><span class="archive-arrow" aria-hidden="true">↗</span></a></li>{% endfor %}</ol>
+    {% else %}<div class="empty-state"><h2>暂无历史日报。</h2><p>生成第一期日报后，这里会保留按日期排列的阅读入口。</p></div>{% endif %}
+  </section>
+</main>
+<footer class="site-footer"><span>PERSONAL NEWS BRIEF</span><a href="index.html">返回最新一期</a><span>让信息成为理解。</span></footer>
+</body></html>

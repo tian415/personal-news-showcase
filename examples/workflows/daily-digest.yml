@@ -1,0 +1,142 @@
+name: Daily news digest
+
+on:
+  schedule:
+    - cron: "17 23 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Build and validate without changing state, publishing, or sending email
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: news-state
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DIGEST_REPOSITORY: ${{ vars.DIGEST_REPOSITORY || format('{0}/personal-news-digest', github.repository_owner) }}
+      DIGEST_BASE_URL: ${{ vars.DIGEST_BASE_URL || format('https://{0}.github.io/personal-news-digest/', github.repository_owner) }}
+    steps:
+      - name: Require private repository for news state
+        if: ${{ github.event.repository.private != true }}
+        run: |
+          echo "Private news state requires a private running repository or a local workspace."
+          exit 1
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - run: uv run pytest -v
+      - run: uv run ruff check .
+      - name: Initialize or checkout private news state
+        if: ${{ inputs.dry_run != true }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git clone --no-checkout "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$RUNNER_TEMP/news-state"
+          cd "$RUNNER_TEMP/news-state"
+          if git ls-remote --exit-code --heads origin news-state; then
+            git fetch origin news-state
+            git checkout -B news-state origin/news-state
+          else
+            remote_status=$?
+            if [ "$remote_status" -ne 2 ]; then
+              exit "$remote_status"
+            fi
+            git switch --orphan news-state
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            touch .gitkeep
+            git add .gitkeep
+            git commit -m "chore: initialize private news state"
+            git push --set-upstream origin news-state
+          fi
+      - name: Checkout public digest repository
+        if: ${{ inputs.dry_run != true }}
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.DIGEST_REPOSITORY }}
+          token: ${{ secrets.DIGEST_REPO_TOKEN }}
+          path: digest-site
+      - name: Recover confirmed web deliveries
+        if: ${{ inputs.dry_run != true }}
+        run: >-
+          uv run news-assistant reconcile-deliveries
+          --state-dir "$RUNNER_TEMP/news-state"
+          --published digest-site
+      - name: Build public digest
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          DEEPSEEK_MODEL: deepseek-v4-flash
+        run: >-
+          uv run news-assistant build
+          --output public
+          --email-output work/digest-email.html
+          --digest-url "$DIGEST_BASE_URL"
+          --selection-engine layered_shadow_v1
+          --state-dir "$RUNNER_TEMP/news-state"
+          --run-id "${{ github.run_id }}-${{ github.run_attempt }}"
+          --delivery-manifest work/legacy-selected.json
+      - name: Evaluate private shadow readiness
+        run: >-
+          uv run news-assistant evaluate-layers
+          --state-dir "$RUNNER_TEMP/news-state"
+          --output work/layered-evaluation.json
+      - name: Persist private news state
+        if: ${{ inputs.dry_run != true }}
+        run: |
+          cd "$RUNNER_TEMP/news-state"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "chore: record news selection state"
+          git push
+      - name: Audit public digest
+        run: uv run news-assistant audit-public --output public
+      - name: Preserve and audit published history
+        if: ${{ inputs.dry_run != true }}
+        run: uv run news-assistant preserve-history --published digest-site --output public
+      - name: Publish public digest
+        if: ${{ inputs.dry_run != true }}
+        run: |
+          rsync -a --delete --exclude .git/ public/ digest-site/
+          cd digest-site
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "chore: publish daily digest"
+          git push
+      - name: Mark web delivery in private state
+        if: ${{ inputs.dry_run != true }}
+        run: >-
+          uv run news-assistant mark-delivered
+          --state-dir "$RUNNER_TEMP/news-state"
+          --run-id "${{ github.run_id }}-${{ github.run_attempt }}"
+          --delivery-manifest work/legacy-selected.json
+      - name: Persist delivery state
+        if: ${{ inputs.dry_run != true }}
+        run: |
+          cd "$RUNNER_TEMP/news-state"
+          git add -A
+          git diff --cached --quiet || git commit -m "chore: record delivered news"
+          git push
+      - name: Send Gmail digest
+        if: ${{ inputs.dry_run != true }}
+        env:
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          NEWS_RECIPIENT: ${{ secrets.NEWS_RECIPIENT }}
+        run: >-
+          uv run news-assistant send-email
+          --input work/digest-email.html
+          --digest-date "$(TZ=Asia/Shanghai date +%F)"
+          --digest-url "$DIGEST_BASE_URL"

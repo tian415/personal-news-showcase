@@ -1,0 +1,345 @@
+# Review evidence and staging: docs/source-review-2026-09-21.md
+version: source-registry-v2
+sources:
+- id: openai_news
+  name: OpenAI News
+  tier: T0
+  adapter: rss
+  url: https://openai.com/news/rss.xml
+  topics:
+  - ai
+  coverage_domains:
+  - ai_technology
+  publisher_group: openai
+  evidence_role: PRIMARY_FACT
+  source_kind: OFFICIAL
+  language: en
+  terms_reviewed_at: 2026-08-17
+  access_stability: public_rss
+  enabled: true
+  fetch_interval_hours: 24
+  failure_policy: continue
+- id: mit_technology_review
+  name: MIT Technology Review
+  tier: T1
+  adapter: rss
+  url: https://www.technologyreview.com/feed/
+  topics:
+  - tech
+  coverage_domains:
+  - ai_technology
+  publisher_group: mit_technology_review
+  evidence_role: INDEPENDENT_REPORTING
+  source_kind: MEDIA
+  language: en
+  terms_reviewed_at: 2026-08-17
+  access_stability: public_rss
+  enabled: true
+  fetch_interval_hours: 24
+  failure_policy: continue
+- id: science_daily
+  name: ScienceDaily
+  tier: T2
+  adapter: rss
+  url: https://www.sciencedaily.com/rss/top/science.xml
+  topics:
+  - science
+  coverage_domains:
+  - science_health
+  publisher_group: science_daily
+  evidence_role: EXPERT_ANALYSIS
+  source_kind: MEDIA
+  language: en
+  terms_reviewed_at: 2026-08-17
+  access_stability: public_rss
+  enabled: true
+  fetch_interval_hours: 24
+  failure_policy: continue
+- id: bbc_business
+  name: BBC Business
+  tier: T1
+  adapter: rss
+  url: https://feeds.bbci.co.uk/news/business/rss.xml
+  topics:
+  - business
+  coverage_domains:
+  - business_macro
+  publisher_group: bbc
+  evidence_role: INDEPENDENT_REPORTING
+  source_kind: MEDIA
+  language: en
+  terms_reviewed_at: 2026-08-17
+  access_stability: public_rss
+  enabled: true
+  fetch_interval_hours: 24
+  failure_policy: continue
+- id: kr36_news
+  name: 36氪快讯
+  tier: T1
+  evidence_role: INDEPENDENT_REPORTING
+  source_kind: MEDIA
+  adapter: rss
+  url: https://36kr.com/feed-newsflash
+  topics:
+  - business
+  coverage_domains:
+  - business_macro
+  publisher_group: kr36
+  language: zh
+  terms_reviewed_at: 2026-08-17
+  access_stability: review_pending
+  enabled: false
+  production_enabled: false
+  fetch_interval_hours: 24
+  failure_policy: continue
+- id: sspai
+  name: 少数派
+  tier: T2
+  evidence_role: EXPERT_ANALYSIS
+  source_kind: MEDIA
+  adapter: rss
+  url: https://sspai.com/feed
+  topics:
+  - exploration
+  coverage_domains:
+  - exploration
+  publisher_group: sspai
+  language: zh
+  terms_reviewed_at: 2026-09-21
+  access_stability: public_rss
+  enabled: true
+  production_enabled: true
+  fetch_interval_hours: 24
+  failure_policy: continue
+- id: v2ex_latest
+  name: V2EX 最新主题
+  tier: T3
+  evidence_role: COMMUNITY_SIGNAL
+  source_kind: FORUM
+  adapter: v2ex
+  url: https://www.v2ex.com/api/topics/latest.json
+  topics:
+  - exploration
+  coverage_domains:
+  - exploration
+  publisher_group: v2ex
+  language: zh
+  terms_reviewed_at: 2026-08-17
+  access_stability: public_api
+  signal_weight: 0.8
+  enabled: true
+  fetch_interval_hours: 6
+  failure_policy: continue
+- id: zhihu_hot_review_pending
+  name: 知乎热榜（待审核）
+  tier: T3
+  evidence_role: COMMUNITY_SIGNAL
+  source_kind: AGGREGATOR
+  adapter: manual
+  url: https://www.zhihu.com/hot
+  topics:
+  - exploration
+  coverage_domains:
+  - exploration
+  publisher_group: zhihu
+  language: zh
+  terms_reviewed_at: 2026-08-17
+  access_stability: review_pending
+  enabled: false
+  fetch_interval_hours: 24
+  failure_policy: continue
+- id: ifanr
+  name: 爱范儿
+  tier: T1
+  adapter: rss
+  url: https://www.ifanr.com/feed
+  topics:
+  - tech
+  coverage_domains:
+  - ai_technology
+  publisher_group: ifanr
+  evidence_role: INDEPENDENT_REPORTING
+  source_kind: MEDIA
+  language: zh
+  terms_reviewed_at: 2026-09-21
+  access_stability: public_rss
+  enabled: true
+  production_enabled: true
+  fetch_interval_hours: 24
+  failure_policy: continue
+- id: geekpark
+  name: 极客公园
+  tier: T1
+  adapter: rss
+  url: https://www.geekpark.net/rss
+  topics:
+  - tech
+  coverage_domains:
+  - ai_technology
+  publisher_group: geekpark
+  evidence_role: INDEPENDENT_REPORTING
+  source_kind: MEDIA
+  language: zh
+  terms_reviewed_at: 2026-09-21
+  access_stability: public_rss
+  enabled: true
+  production_enabled: true
+  fetch_interval_hours: 24
+  failure_policy: continue
+- id: tmtpost
+  name: 钛媒体
+  tier: T1
+  adapter: rss
+  url: https://www.tmtpost.com/rss.xml
+  topics:
+  - business
+  coverage_domains:
+  - business_macro
+  publisher_group: tmtpost
+  evidence_role: INDEPENDENT_REPORTING
+  source_kind: MEDIA
+  language: zh
+  terms_reviewed_at: 2026-09-21
+  access_stability: public_rss
+  enabled: true
+  production_enabled: true
+  fetch_interval_hours: 24
+  failure_policy: continue
+- id: stats_releases
+  name: 国家统计局最新发布
+  tier: T0
+  adapter: rss
+  url: https://www.stats.gov.cn/sj/zxfb/rss.xml
+  topics:
+  - markets
+  coverage_domains:
+  - business_macro
+  - policy_public_affairs
+  publisher_group: national_bureau_of_statistics
+  evidence_role: PRIMARY_FACT
+  source_kind: OFFICIAL
+  language: zh
+  terms_reviewed_at: 2026-09-21
+  access_stability: public_rss
+  enabled: true
+  production_enabled: false
+  fetch_interval_hours: 6
+  failure_policy: continue
+- id: stats_interpretation
+  name: 国家统计局数据解读
+  tier: T0
+  adapter: rss
+  url: https://www.stats.gov.cn/sj/sjjd/rss.xml
+  topics:
+  - markets
+  coverage_domains:
+  - business_macro
+  publisher_group: national_bureau_of_statistics
+  evidence_role: PRIMARY_FACT
+  source_kind: OFFICIAL
+  language: zh
+  terms_reviewed_at: 2026-09-21
+  access_stability: public_rss
+  enabled: true
+  production_enabled: false
+  fetch_interval_hours: 6
+  failure_policy: continue
+- id: sciencenet_news
+  name: 科学网新闻
+  tier: T1
+  adapter: rss
+  url: https://www.sciencenet.cn/xml/news-0.aspx?news=0
+  topics:
+  - science
+  coverage_domains:
+  - science_health
+  publisher_group: china_science_daily
+  evidence_role: INDEPENDENT_REPORTING
+  source_kind: MEDIA
+  language: zh
+  naive_timezone: Asia/Shanghai
+  terms_reviewed_at: 2026-09-21
+  access_stability: public_rss
+  enabled: true
+  production_enabled: false
+  fetch_interval_hours: 6
+  failure_policy: continue
+- id: eia_energy
+  name: EIA Today in Energy
+  tier: T0
+  adapter: rss
+  url: https://www.eia.gov/rss/todayinenergy.xml
+  topics:
+  - business
+  coverage_domains:
+  - business_macro
+  publisher_group: us_eia
+  evidence_role: PRIMARY_FACT
+  source_kind: OFFICIAL
+  language: en
+  terms_reviewed_at: 2026-09-21
+  access_stability: public_rss
+  enabled: true
+  production_enabled: false
+  fetch_interval_hours: 6
+  failure_policy: continue
+- id: fed_monetary
+  name: Federal Reserve Monetary Policy
+  tier: T0
+  adapter: rss
+  url: https://www.federalreserve.gov/feeds/press_monetary.xml
+  topics:
+  - markets
+  coverage_domains:
+  - business_macro
+  - policy_public_affairs
+  publisher_group: federal_reserve
+  evidence_role: PRIMARY_FACT
+  source_kind: OFFICIAL
+  language: en
+  terms_reviewed_at: 2026-09-21
+  access_stability: public_rss
+  enabled: true
+  production_enabled: false
+  fetch_interval_hours: 6
+  failure_policy: continue
+- id: ecb_press
+  name: ECB Press
+  tier: T0
+  adapter: rss
+  url: https://www.ecb.europa.eu/rss/press.html
+  topics:
+  - markets
+  coverage_domains:
+  - business_macro
+  - policy_public_affairs
+  publisher_group: ecb
+  evidence_role: PRIMARY_FACT
+  source_kind: OFFICIAL
+  language: en
+  terms_reviewed_at: 2026-09-21
+  access_stability: public_rss
+  enabled: true
+  production_enabled: false
+  fetch_interval_hours: 6
+  failure_policy: continue
+- id: nasa_natural_events
+  name: NASA Earth Observatory
+  tier: T0
+  adapter: rss
+  url: https://science.nasa.gov/feed/earth-observatory/natural-events
+  topics:
+  - exploration
+  coverage_domains:
+  - exploration
+  - science_health
+  publisher_group: nasa
+  evidence_role: PRIMARY_FACT
+  source_kind: OFFICIAL
+  language: en
+  terms_reviewed_at: 2026-09-21
+  access_stability: public_rss
+  enabled: true
+  production_enabled: false
+  fetch_interval_hours: 6
+  failure_policy: continue

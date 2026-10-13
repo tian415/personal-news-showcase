@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.env
+.env.*
+work/
+public/
+private-state/
+*.log
+*.pem
+*.key
+.DS_Store

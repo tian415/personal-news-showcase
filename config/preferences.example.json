@@ -1,0 +1,13 @@
+{
+  "topic_weights": {
+    "ai": 1.0,
+    "tech": 1.0,
+    "science": 1.0,
+    "business": 1.0,
+    "markets": 1.0,
+    "exploration": 1.0
+  },
+  "source_weights": {},
+  "positive_tags": {},
+  "negative_tags": {}
+}

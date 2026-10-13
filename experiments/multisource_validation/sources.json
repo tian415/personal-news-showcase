@@ -1,0 +1,217 @@
+[
+  {
+    "id": "ifanr",
+    "name": "爱范儿",
+    "publisher_group": "ifanr",
+    "language": "zh",
+    "domain_hint": "ai_technology",
+    "url": "https://www.ifanr.com/feed",
+    "kind": "rss"
+  },
+  {
+    "id": "row",
+    "name": "Rest of World",
+    "publisher_group": "rest_of_world",
+    "language": "en",
+    "domain_hint": "ai_technology",
+    "url": "https://restofworld.org/feed/latest",
+    "kind": "rss"
+  },
+  {
+    "id": "sciencenews",
+    "name": "Science News",
+    "publisher_group": "science_news",
+    "language": "en",
+    "domain_hint": "science_health",
+    "url": "https://www.sciencenews.org/feed",
+    "kind": "rss"
+  },
+  {
+    "id": "sciencenet",
+    "name": "科学网",
+    "publisher_group": "sciencenet",
+    "language": "zh",
+    "domain_hint": "science_health",
+    "url": "https://www.sciencenet.cn/xml/news-0.aspx?news=0",
+    "kind": "rss",
+    "naive_timezone": "Asia/Shanghai"
+  },
+  {
+    "id": "dw_zh",
+    "name": "DW中文",
+    "publisher_group": "deutsche_welle",
+    "language": "zh",
+    "domain_hint": "policy_public_affairs",
+    "url": "https://rss.dw.com/rdf/rss-chi-all",
+    "kind": "rss"
+  },
+  {
+    "id": "cna_asia",
+    "name": "CNA Asia",
+    "publisher_group": "mediacorp",
+    "language": "en",
+    "domain_hint": "society_life",
+    "url": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=6511",
+    "kind": "rss"
+  },
+  {
+    "id": "cna_business",
+    "name": "CNA Business",
+    "publisher_group": "mediacorp",
+    "language": "en",
+    "domain_hint": "business_macro",
+    "url": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=6936",
+    "kind": "rss"
+  },
+  {
+    "id": "reporter",
+    "name": "報導者",
+    "publisher_group": "twreporter",
+    "language": "zh",
+    "domain_hint": "society_life",
+    "url": "https://www.twreporter.org/a/rss2.xml",
+    "kind": "rss"
+  },
+  {
+    "id": "cna_tw_culture",
+    "name": "中央社文化",
+    "publisher_group": "cna_tw",
+    "language": "zh",
+    "domain_hint": "culture_entertainment",
+    "url": "https://feeds.feedburner.com/rsscna/culture",
+    "kind": "rss"
+  },
+  {
+    "id": "cna_tw_stars",
+    "name": "中央社娛樂",
+    "publisher_group": "cna_tw",
+    "language": "zh",
+    "domain_hint": "culture_entertainment",
+    "url": "https://feeds.feedburner.com/rsscna/stars",
+    "kind": "rss"
+  },
+  {
+    "id": "bbc_business",
+    "name": "BBC Business",
+    "publisher_group": "bbc",
+    "language": "en",
+    "domain_hint": "business_macro",
+    "url": "https://feeds.bbci.co.uk/news/business/rss.xml",
+    "kind": "rss"
+  },
+  {
+    "id": "guardian_world",
+    "name": "Guardian World",
+    "publisher_group": "guardian",
+    "language": "en",
+    "domain_hint": "policy_public_affairs",
+    "url": "https://www.theguardian.com/world/rss",
+    "kind": "rss"
+  },
+  {
+    "id": "sixthtone",
+    "name": "Sixth Tone",
+    "publisher_group": "shanghai_united_media",
+    "language": "en",
+    "domain_hint": "society_life",
+    "url": "https://www.sixthtone.com/",
+    "kind": "html"
+  },
+  {
+    "id": "jiemian",
+    "name": "界面文化",
+    "publisher_group": "shanghai_united_media",
+    "language": "zh",
+    "domain_hint": "culture_entertainment",
+    "url": "https://www.jiemian.com/lists/130.html",
+    "kind": "html"
+  },
+  {
+    "id": "yicai",
+    "name": "第一财经",
+    "publisher_group": "yicai",
+    "language": "zh",
+    "domain_hint": "business_macro",
+    "url": "https://www.yicai.com/",
+    "kind": "html"
+  },
+  {
+    "id": "thepaper",
+    "name": "澎湃",
+    "publisher_group": "shanghai_united_media",
+    "language": "zh",
+    "domain_hint": "policy_public_affairs",
+    "url": "https://www.thepaper.cn/",
+    "kind": "html"
+  },
+  {
+    "id": "chuapp",
+    "name": "触乐",
+    "publisher_group": "chuapp",
+    "language": "zh",
+    "domain_hint": "culture_entertainment",
+    "url": "https://www.chuapp.com/",
+    "kind": "html"
+  },
+  {
+    "id": "aljazeera",
+    "name": "Al Jazeera",
+    "publisher_group": "al_jazeera",
+    "language": "en",
+    "domain_hint": "policy_public_affairs",
+    "url": "https://www.aljazeera.com/xml/rss/all.xml",
+    "kind": "rss"
+  },
+  {
+    "id": "jiqizhixin",
+    "name": "机器之心",
+    "publisher_group": "jiqizhixin",
+    "language": "zh",
+    "domain_hint": "ai_technology",
+    "url": "https://www.jiqizhixin.com/",
+    "kind": "restricted",
+    "restriction_evidence": "Excluded conditional source; not probed in this frozen collection. Status label restricted is a catalog exclusion, not observed HTTP failure. Prior research is not counted as this trial evidence.",
+    "prior_probe_note": "External earlier probe in /private/tmp/news_source_research_results.json; excluded from this frozen trial request evidence."
+  },
+  {
+    "id": "nfzm",
+    "name": "南方周末",
+    "publisher_group": "nfzm",
+    "language": "zh",
+    "domain_hint": "policy_public_affairs",
+    "url": "https://www.infzm.com/",
+    "kind": "restricted",
+    "restriction_evidence": "Excluded conditional source; not probed in this frozen collection. Status label restricted is a catalog exclusion, not observed HTTP failure. Prior research is not counted as this trial evidence."
+  },
+  {
+    "id": "initium",
+    "name": "端传媒",
+    "publisher_group": "initium",
+    "language": "zh",
+    "domain_hint": "policy_public_affairs",
+    "url": "https://theinitium.com/",
+    "kind": "restricted",
+    "restriction_evidence": "Excluded conditional source; not probed in this frozen collection. Status label restricted is a catalog exclusion, not observed HTTP failure. Prior research is not counted as this trial evidence."
+  },
+  {
+    "id": "ft",
+    "name": "FT",
+    "publisher_group": "ft",
+    "language": "en",
+    "domain_hint": "business_macro",
+    "url": "https://www.ft.com/",
+    "kind": "restricted",
+    "restriction_evidence": "Excluded conditional source; not probed in this frozen collection. Status label restricted is a catalog exclusion, not observed HTTP failure. Prior research is not counted as this trial evidence."
+  },
+  {
+    "id": "nikkei",
+    "name": "日经",
+    "publisher_group": "nikkei",
+    "language": "zh",
+    "domain_hint": "business_macro",
+    "url": "https://cn.nikkei.com/",
+    "kind": "restricted",
+    "restriction_evidence": "Excluded conditional source; not probed in this frozen collection. Status label restricted is a catalog exclusion, not observed HTTP failure. Prior research is not counted as this trial evidence.",
+    "prior_probe_note": "External earlier probe in /private/tmp/news_source_research_results.json; excluded from this frozen trial request evidence."
+  }
+]

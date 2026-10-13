@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>每日新闻 · {{ digest.digest_date }}</title></head>
+<body style="margin:0;background:#f3f5f8;color:#172033;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">{% if digest.demo_mode %}<p>离线演示数据 · 合成场景，非实时新闻；此邮件仅为预览。</p>{% endif %}
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f3f5f8;"><tr><td align="center" style="padding:24px 12px;">
+{% if digest.local_preview %}<p>本地审阅版 · 邮件预览，尚未发送；来源陈述不等于事实已核验。</p>{% endif %}
+{% if digest.local_preview and digest.coverage_notes %}<aside aria-label="主题覆盖说明">{% for note in digest.coverage_notes %}<p>{{ note }}</p>{% endfor %}</aside>{% endif %}
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:640px;background:#ffffff;border-radius:16px;overflow:hidden;">
+<tr><td style="padding:32px 28px;background:#172033;color:#ffffff;">
+<p style="margin:0 0 10px;color:#9fb5ff;font-size:12px;font-weight:700;letter-spacing:2px;">PERSONAL NEWS BRIEF</p>
+<h1 style="margin:0 0 12px;font-size:30px;line-height:1.2;">{{ digest.digest_date }} 每日新闻</h1>
+<p style="margin:0 0 22px;color:#d9dfed;">{{ digest.articles|length }} 条精选新闻，邮件快速阅读，网页完成偏好反馈。</p>
+<a href="{{ daily_url }}" style="display:inline-block;padding:12px 18px;border-radius:24px;background:#4f72ea;color:#ffffff;text-decoration:none;font-weight:700;">打开今日完整新闻</a>
+</td></tr>
+{% for article in digest.articles %}
+<tr><td style="padding:26px 28px;border-bottom:1px solid #e8ebf1;">
+<p style="margin:0 0 8px;color:#667085;font-size:13px;">{{ loop.index }} · {{ article.topic.value }} · {{ article.source }}</p>
+<h2 style="margin:0 0 12px;font-size:21px;line-height:1.35;color:#172033;">{{ article.chinese_title }}</h2>
+{% if digest.local_preview %}<p>{{ {"fact":"来源报道","opinion":"观点分析","speculation":"待核实线索"}[article.claim_type] }}</p>{% endif %}
+{% if article.degraded %}<p style="margin:0 0 8px;color:#667085;font-size:13px;">来源摘要 · 自动整理暂不可用</p>{% endif %}
+<p style="margin:0 0 14px;line-height:1.7;color:#344054;">{{ article.chinese_summary }}</p>
+{% if article.news_value %}<aside aria-label="新闻价值说明">
+<p><strong>为什么今天值得看</strong> · {{ article.news_value.why_today }}</p>
+<p><strong>影响是什么</strong> · {{ article.news_value.impact }}</p>
+<p>{{ article.news_value.date_label }}：{{ article.news_value.event_time.strftime("%Y-%m-%d") }}</p>
+{% if article.news_value.value_basis_url %}<p>判断依据：<a href="{{ article.news_value.value_basis_url }}">{{ article.news_value.value_basis_source }}</a></p>{% endif %}
+<p>{{ article.news_value.attention_note }}{% if article.news_value.attention_url %} · <a href="{{ article.news_value.attention_url }}">查看关注信号</a>{% endif %}</p>
+</aside>{% endif %}
+{% if article.beginner_context %}<p style="margin:0 0 18px;padding:12px 14px;border-left:4px solid #e0a832;background:#fff8df;color:#55451a;line-height:1.6;">{{ article.beginner_context }}</p>{% endif %}
+<p style="margin:0;line-height:2.2;">
+<a href="{{ article.url }}" style="display:inline-block;margin-right:8px;color:#3157d5;font-weight:700;text-decoration:none;">阅读原文</a>
+{% if article.language == 'en' %}<a href="https://translate.google.com/translate?sl=auto&amp;tl=zh-CN&amp;u={{ quote(article.url|string, safe='') }}" style="display:inline-block;margin-right:8px;color:#3157d5;text-decoration:none;">Google 翻译（中文翻译）</a>{% endif %}
+<a href="{{ daily_url }}#{{ article_anchor(article.id) }}" style="display:inline-block;color:#667085;text-decoration:none;">去网页反馈</a>
+</p>
+</td></tr>
+{% endfor %}
+<tr><td style="padding:22px 28px;color:#667085;font-size:13px;line-height:1.6;">偏好反馈仅在网页中保存于当前浏览器，不会从邮件自动上传。</td></tr>
+</table></td></tr></table>
+</body></html>

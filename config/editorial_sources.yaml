@@ -1,0 +1,78 @@
+# Explicit local trial only. Use --sources plus --include-shadow where required.
+# RSS: audit-sources --sources this-file --capture-candidates.
+# All adapters: scripts/sample_editorial_sources.py (private experiment only).
+# 2026-10-10 samples and limitations: docs/validation/2026-10-10/source-selection.md.
+# Successful acquisition is neither terms clearance nor long-term reliability.
+version: editorial-local-v2
+sources:
+  - id: rest_of_world
+    name: Rest of World
+    tier: T1
+    adapter: rss
+    url: https://restofworld.org/feed/latest
+    topics: [tech]
+    coverage_domains: [ai_technology]
+    publisher_group: rest_of_world
+    evidence_role: INDEPENDENT_REPORTING
+    source_kind: MEDIA
+    language: en
+    access_stability: sampled_2026_09_29_and_2026_10_10_not_longitudinal
+    enabled: true
+    production_enabled: false
+  - id: science_news
+    name: Science News
+    tier: T1
+    adapter: rss
+    url: https://www.sciencenews.org/feed
+    topics: [science]
+    coverage_domains: [science_health]
+    publisher_group: society_for_science
+    evidence_role: INDEPENDENT_REPORTING
+    source_kind: MEDIA
+    language: en
+    access_stability: sampled_2026_09_29_and_2026_10_10_not_longitudinal
+    enabled: true
+    production_enabled: false
+  - id: guardian_world
+    name: The Guardian World
+    tier: T1
+    adapter: rss
+    url: https://www.theguardian.com/world/rss
+    topics: [exploration]
+    coverage_domains: [policy_public_affairs]
+    publisher_group: guardian
+    evidence_role: INDEPENDENT_REPORTING
+    source_kind: MEDIA
+    language: en
+    access_stability: sampled_2026_09_29_and_2026_10_10_not_longitudinal
+    enabled: true
+    production_enabled: false
+  - id: sixthtone_society
+    name: Sixth Tone
+    tier: T1
+    adapter: sixthtone_listing
+    url: https://www.sixthtone.com/
+    topics: [exploration]
+    coverage_domains: [exploration]
+    publisher_group: shanghai_united_media
+    evidence_role: INDEPENDENT_REPORTING
+    source_kind: MEDIA
+    language: en
+    access_stability: public_listing_single_probe_2026_10_10
+    enabled: true
+    production_enabled: false
+  - id: jiemian_culture
+    name: 界面文化
+    tier: T1
+    adapter: jiemian_listing
+    url: https://www.jiemian.com/lists/130.html
+    topics: [exploration]
+    coverage_domains: [exploration]
+    publisher_group: shanghai_united_media
+    evidence_role: INDEPENDENT_REPORTING
+    source_kind: MEDIA
+    language: zh
+    naive_timezone: Asia/Shanghai
+    access_stability: public_listing_single_probe_2026_10_10
+    enabled: true
+    production_enabled: false

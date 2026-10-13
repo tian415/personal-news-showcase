@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>每日新闻 · {{ digest.digest_date }}</title><link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#news">跳到新闻</a>
+<header class="site-header">
+  <div class="brand-row"><p class="eyebrow">PERSONAL NEWS BRIEF</p><nav class="page-nav" aria-label="页面导航"><a href="archive.html">历史日报 <span aria-hidden="true">↗</span></a></nav></div>
+  <div class="masthead"><h1>每日新闻<span class="title-dot" aria-hidden="true">.</span></h1><p class="edition"><time datetime="{{ digest.digest_date }}">{{ digest.digest_date }}</time><span>{{ digest.articles|length }} 条精选</span></p></div>
+  <p class="intro">读懂今天的变化，也看见更长的脉络。</p>
+  {% if digest.local_preview %}<p class="edition-note" role="note"><span class="status-dot" aria-hidden="true"></span>本地审阅版 · 尚未线上发布</p>{% endif %}
+  {% if digest.demo_mode %}<div class="demo-banner" role="note">离线演示数据 · 以下为合成场景，不是实时新闻；未调用模型、未发送邮件。</div>{% endif %}
+  <details id="reading-guide" class="reading-guide">
+    <summary>阅读说明与反馈导出{% if digest.local_preview and digest.coverage_notes %} · 覆盖说明{% endif %}</summary>
+    {% if digest.local_preview %}<p class="help">按来源材料和审阅记录选文；来源陈述不等于事实已核验。</p>{% endif %}
+    {% if digest.local_preview and digest.coverage_notes %}<div class="coverage-notes" aria-label="主题覆盖说明">{% for note in digest.coverage_notes %}<p>{{ note }}</p>{% endfor %}</div>{% endif %}
+    <p class="help">{% if digest.local_preview %}阅读后确认本地版本，再导入下载的反馈；反馈将影响下一轮本地选文。{% else %}下载反馈 JSON；导入私有配置后用于推荐评估，尚不自动改变邮件。{% endif %}不同设备或浏览器的反馈不会自动合并。</p>
+    <div class="export-row"><button id="export" disabled>导出偏好文件</button><span id="export-status" role="status">暂无可导出的反馈</span></div>
+  </details>
+  {% if digest.local_preview and digest.background_readings %}<nav class="edition-sections" aria-label="阅读栏目"><a href="#news">今日新闻 <span>{{ digest.articles|length }}</span></a><a href="#background-readings">理解世界 <span>{{ digest.background_readings|length }}</span><span aria-hidden="true">↓</span></a></nav>{% endif %}
+</header>
+<main class="reading-layout">
+{% if digest.articles %}
+  <nav class="contents" aria-label="本期目录">
+    <p class="section-kicker">本期目录</p>
+    <ol>{% for article in digest.articles %}<li><a href="#{{ article_anchor(article.id) }}"><span class="contents-number">{{ '%02d'|format(loop.index) }}</span><span>{{ article.chinese_title }}</span></a></li>{% endfor %}</ol>
+    {% if digest.local_preview and digest.background_readings %}<a class="contents-background" href="#background-readings">理解世界 · 延伸阅读 <span aria-hidden="true">↓</span></a>{% endif %}
+    <p class="contents-note">从发生了什么，到为什么值得关注。</p>
+  </nav>
+{% endif %}
+<div class="news-stream" id="news">
+{% for article in digest.articles %}
+  <article class="news-item{% if loop.first %} lead-story{% endif %}" id="{{ article_anchor(article.id) }}" data-article="{{ article.id }}" data-event-ref="{{ article.event_ref or '' }}" data-topic="{{ article.topic.value }}" data-source="{{ article.source }}">
+    <div class="meta"><span class="story-number">{{ '%02d'|format(loop.index) }}</span><span class="topic-label">{{ {"ai":"人工智能","tech":"科技","science":"科学","business":"商业","markets":"市场","exploration":"探索"}[article.topic.value] }}</span><span>{{ article.source }}</span>{% if loop.first %}<span class="lead-label">本期头条</span>{% endif %}</div>
+    <h2>{{ article.chinese_title }}</h2>
+    <div class="source-notes"><time datetime="{{ article.published_at.isoformat() }}">来源发布 {{ article.published_at.strftime("%m-%d %H:%M %Z") }}</time>{% if digest.local_preview %}<span class="claim-label">{{ {"fact":"来源报道","opinion":"观点分析","speculation":"待核实线索"}[article.claim_type] }}{% if not article.degraded %} · 审阅整理{% endif %}</span>{% endif %}</div>
+    {% if article.degraded %}<p class="help source-fallback">{% if digest.local_preview %}来源摘要 · 未调用自动整理{% else %}来源摘要 · 自动整理暂不可用{% endif %}</p>{% endif %}
+    <p class="lead">{{ article.chinese_summary }}</p>
+    {% if article.news_value %}<div class="news-value" aria-label="新闻价值说明">
+      <div><h3>为什么今天值得看</h3><p>{{ article.news_value.why_today }}</p></div>
+      <div><h3>影响是什么</h3><p>{{ article.news_value.impact }}</p></div>
+    </div>{% endif %}
+    {% if article.beginner_context %}<aside class="context-note"><span class="context-label">补充理解</span><p>{{ article.beginner_context }}</p></aside>{% endif %}
+    {% if article.news_value or (digest.local_preview and article.key_points) %}<details class="evidence-details"><summary>来源依据与关注信号{% if digest.local_preview %} · 审阅材料{% endif %}</summary>
+      {% if article.news_value %}<p>{{ article.news_value.date_label }}：{{ article.news_value.event_time.strftime("%Y-%m-%d") }}</p>
+      {% if article.news_value.value_basis_url %}<p>判断依据：<a href="{{ article.news_value.value_basis_url }}">{{ article.news_value.value_basis_source }}</a></p>{% endif %}
+      <p>{{ article.news_value.attention_note }}{% if article.news_value.attention_url %} · <a href="{{ article.news_value.attention_url }}">查看关注信号</a>{% endif %}</p>{% endif %}
+      {% if digest.local_preview and article.key_points %}<p class="help">审阅所据原文 · 仅摘录与判断相关的部分</p>{% for quote in article.key_points %}<blockquote>{{ quote }}</blockquote>{% endfor %}{% endif %}
+    </details>{% endif %}
+    <nav class="story-actions" aria-label="文章链接和反馈">
+      <a class="primary" href="{{ article.url }}" target="_blank" rel="noopener">阅读原文 <span aria-hidden="true">↗</span></a>
+      {% if article.language == 'en' %}<a class="translation" href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u={{ quote(article.url|string, safe='') }}" target="_blank" rel="noopener">Google 翻译（中文翻译）</a>{% endif %}
+      <div class="feedback-actions"><button data-feedback="helpful" aria-pressed="false">有帮助</button><button data-feedback="reduce" aria-pressed="false">减少类似</button><button data-feedback="track" aria-pressed="false">追踪后续</button></div>
+      <select class="feedback-reason" aria-label="减少类似的原因" hidden><option value="irrelevant">与我关系不大</option><option value="already_known">已经知道</option><option value="shallow">分析太浅</option><option value="insufficient_evidence">证据不足</option><option value="duplicate">内容重复</option></select>
+    </nav>
+    <p class="feedback-status" role="status" hidden>已保存在此浏览器</p>
+  </article>
+{% endfor %}
+{% if not digest.articles %}<section class="empty-state"><h2>今天暂时没有符合质量标准的新闻</h2><p>我们保留筛选门槛，不以低质量内容补足数量。可从历史日报回看往期内容。</p><a href="archive.html">回看历史日报 <span aria-hidden="true">↗</span></a></section>{% endif %}
+{% if digest.local_preview and digest.background_readings %}
+  <section class="background-readings" id="background-readings" aria-labelledby="background-heading">
+    <p class="section-kicker">THE BIGGER PICTURE</p><h2 id="background-heading">理解世界<span>延伸阅读</span></h2>
+    <p class="section-description">背景阅读 · 不计今日新闻条数。用更长的视角理解眼前的变化。</p>
+    <ul class="background-list">{% for reading in digest.background_readings %}<li>
+      <div class="meta"><span class="reading-kind">{{ {"background":"背景","analysis":"分析","opinion":"观点"}[reading.kind] }}</span><span>{{ reading.source }}</span><time datetime="{{ reading.published_on }}">{{ reading.published_on }}</time></div>
+      <h3><a href="{{ reading.url }}" target="_blank" rel="noopener">{{ reading.title }} <span aria-hidden="true">↗</span></a></h3>
+      <p class="why-read">{{ reading.why_read }}</p><p class="reading-limitation"><strong>阅读边界</strong> · {{ reading.limitation }}</p>
+      {% if reading.language == 'en' %}<a class="translation" href="https://translate.google.com/translate?sl=auto&tl=zh-CN&u={{ quote(reading.url|string, safe='') }}" target="_blank" rel="noopener">中文翻译 <span aria-hidden="true">↗</span></a>{% endif %}
+    </li>{% endfor %}</ul>
+  </section>
+{% endif %}
+</div>
+</main>
+<footer class="site-footer"><span>PERSONAL NEWS BRIEF</span><a href="archive.html">回看往期</a><span>让信息成为理解。</span></footer>
+<script src="assets/feedback.js"></script>
+</body></html>
